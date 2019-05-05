@@ -8,20 +8,20 @@ class AverageController extends Controller
 {
     public function index(Request $request){
 
-        $requestSub = strlen($request->input('array')) - 2; //Verificar tamanho da String e diminuir 2
-        $requestString = substr($request->input('array'), 1 , $requestSub); // Limpando a String
+        $offChaves = strlen($request->input('array')) - 2; //Verificar tamanho da String e tirar chaves
+        $requestString = substr($request->input('array'), 1 , $offChaves); // Limpando a String
         $requestArray = explode(',', $requestString); // Transformando em Array
         
         
         foreach ($requestArray as $key => $value) {
             
             $value = floatval($value);
-            $value *= $value;
+            $value = pow($value, 2);
             $requestArray[$key] = $value;
 
         }
 
-        $result = sqrt(array_sum($requestArray) / 2);
+        $result = sqrt(array_sum($requestArray) / count($requestArray));
  
         return json_encode($result);
     }
